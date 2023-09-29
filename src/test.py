@@ -25,6 +25,18 @@ hostname = socket.gethostname()
 ip_address = socket.gethostbyname(hostname)
 print("ip_address : ", ip_address)
 
+source_folder = 'source_images'
+out_folder = 'result_images'
+
+# Check if source_folder exists, if not, create it
+if not os.path.exists(source_folder):
+    os.makedirs(source_folder)
+
+# Check if out_folder exists, if not, create it
+if not os.path.exists(out_folder):
+    os.makedirs(out_folder)
+
+
 @app.get('/deoldify/health')
 async def hi():
     return {"response": "server running"}
@@ -32,16 +44,16 @@ async def hi():
 @app.post('/deoldify/infer')
 async def deoldify(file: UploadFile = File(...)):
 
-    source_folder = 'source_images/*'
-    out_folder = 'result_images/*'
+    source_folder_images = 'source_images/*'
+    out_folder_images = 'result_images/*'
 
     # deleting result images
-    for path in glob.glob(source_folder):
+    for path in glob.glob(source_folder_images):
         if os.path.exists(path):
             os.remove(path)
 
     # deleting result images
-    for path in glob.glob(out_folder):
+    for path in glob.glob(out_folder_images):
         if os.path.exists(path):
             os.remove(path)
 
